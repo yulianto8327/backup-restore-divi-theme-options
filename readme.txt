@@ -5,7 +5,7 @@ Tags: comments, spam
 Requires at least: 3.0
 Tested up to: 4.3.1
 Stable tag: /trunk/
-Version: 1.0.2
+Version: 1.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -72,6 +72,10 @@ https://github.com/SiteSpace/backup-restore-divi-theme-options
 2. Even more simple to use
 
 == Changelog ==
+
+= 1.0.3 =
+* **Cosmetic Updates Only**
+* Added Banner and icon for Wordpress plugin page
 
 = 1.0.2 =
 * **Cosmetic Updates Only**
