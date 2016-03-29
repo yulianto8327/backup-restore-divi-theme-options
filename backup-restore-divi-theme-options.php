@@ -15,19 +15,32 @@
 
 class backup_restore_divi_theme_options {
 
+	/**
+	 * add action for admin dashboard wp-admin menu
+	 */
 	function backup_restore_divi_theme_options() {
 		add_action('admin_menu', array(&$this, 'admin_menu'));
 	}
+	
+	/**
+	 * function to add menu in admin dashboard wp-admin
+	 */
 	function admin_menu() {
 
 		$page = add_submenu_page('tools.php', 'Backup/Restore Theme Options', 'Backup/Restore Theme Options', 'manage_options', 'backup-restore-divi-theme-options', array(&$this, 'options_page'));
 
 		add_action("load-{$page}", array(&$this, 'import_export'));
 
+		//add sub menu for backup/restore setting page
 		add_submenu_page( 'et_divi_options',__( 'Backup/Restore Theme Options', 'Divi' ), __( 'Backup/Restore Theme Options', 'Divi' ), 'manage_options', 'tools.php?page=backup-restore-divi-theme-options', 'backup-restore-divi-theme-options' );
-
 	}
+	
+	/**
+	 * function to download and upload setting file and save the setting
+	 */
+
 	function import_export() {
+		//download setting into dat file
 		if (isset($_GET['action']) && ($_GET['action'] == 'download')) {
 			header("Cache-Control: public, must-revalidate");
 			header("Pragma: hack");
@@ -36,6 +49,8 @@ class backup_restore_divi_theme_options {
 			echo serialize($this->_get_options());
 			die();
 		}
+		
+		//upload file and update theme setting
 		if (isset($_POST['upload']) && check_admin_referer('shapeSpace_restoreOptions', 'shapeSpace_restoreOptions')) {
 			if ($_FILES["file"]["error"] > 0) {
 				// error
@@ -51,6 +66,10 @@ class backup_restore_divi_theme_options {
 			exit;
 		}
 	}
+	
+	/**
+	 * form to backup and restore theme setting
+	 */
 	function options_page() { ?>
 
 		<div class="wrap">
@@ -78,13 +97,21 @@ class backup_restore_divi_theme_options {
 		</div>
 
 	<?php }
+	/**
+	 * unserialize the setting for et_divi
+	 */
 	function _display_options() {
 		$options = unserialize($this->_get_options());
 	}
+	
+	/**
+	 * get setting from database for option et_divi
+	 */
 	function _get_options() {
 		global $wpdb;
 		return $wpdb->get_results("SELECT option_name, option_value FROM {$wpdb->options} WHERE option_name = 'et_divi'"); // edit 'shapeSpace_options' to match theme options
 	}
 }
+// initialize class
 new backup_restore_divi_theme_options();
 ?>
